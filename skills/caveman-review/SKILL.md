@@ -1,14 +1,17 @@
 ---
 name: caveman-review
-description: Ultra-compressed code review comments. Cuts noise from PR feedback while keeping actionable signal. One line per finding — location, problem, fix. Use when user says "review this PR", "code review", "review the diff", "/review", "revisa este PR", "revisa el código", or invokes /caveman-review.
+description: Ultra-compressed code review. Two scopes in one pass — CORRECTNESS (bugs, risks, nits) AND OVER-ENGINEERING (what to delete: reinvented stdlib, needless deps, speculative abstractions). One line per finding — location, problem, fix. Use when user says "review this PR", "code review", "review the diff", "what can we delete", "is this over-engineered", "/review", "revisa este PR", "revisa el código", or invokes /caveman-review.
 metadata:
   origin: opencode
   effort: low
+  version: 2.0
 ---
 
 # Caveman Review
 
 Write code review comments terse and actionable. One line per finding: location, problem, fix. No throat-clearing. Reply in user's language (ES/EN).
+
+Two scopes in the same pass: **correctness** (does it work?) and **over-engineering** (is it too much?). The diff's best outcome is getting shorter.
 
 ## Rules
 
@@ -46,6 +49,28 @@ Write code review comments terse and actionable. One line per finding: location,
 ❌ "Have you considered what happens if the API returns a 429?"
 
 ✅ `L23: 🟡 risk: no retry on 429. Wrap in withBackoff(3).`
+
+## Over-engineering scope
+
+Hunt complexity too. Tags for "what to cut":
+
+- `🗑️ delete:` dead code, unused flexibility, speculative feature. Replacement: nothing.
+- `📦 stdlib:` hand-rolled thing the standard library ships. Name the function.
+- `🌐 native:` dependency or code doing what the platform already does. Name the feature.
+- `✂️ yagni:` abstraction with one implementation, config nobody sets, layer with one caller.
+- `📉 shrink:` same logic, fewer lines. Show the shorter form.
+
+Examples:
+
+✅ `L12-38: 📦 stdlib: 27-line email validator class. "@" check is 1 line; real validation is the confirmation mail.`
+
+✅ `L4: 🌐 native: moment.js for one format call. Intl.DateTimeFormat, 0 deps.`
+
+✅ `repo.py:L88: ✂️ yagni: AbstractRepository with one impl. Inline until a second exists.`
+
+✅ `L30-44: 📉 shrink: manual loop builds dict. dict(zip(keys, values)), 1 line.`
+
+End the over-engineering scope with the only metric that matters: `net: -<N> lines possible.` If nothing to cut: `Lean already. Ship.` Never flag the caveman-minimum smoke test / assert self-check for deletion — that's the floor, not bloat.
 
 ## Auto-Clarity
 
