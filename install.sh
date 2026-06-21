@@ -8,7 +8,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 mkdir -p "$CONFIG_DIR/skills" "$CONFIG_DIR/agent" "$CONFIG_DIR/command"
 
 # Skills (sync into a fresh dir so re-installs don't nest folders)
-for skill in caveman-compress caveman-commit caveman-review caveman-debt caveman-shrink; do
+for skill in caveman-compress caveman-commit caveman-review caveman-debt caveman-shrink caveman-memory; do
   rm -rf "$CONFIG_DIR/skills/$skill"
   cp -R "$REPO_DIR/skills/$skill" "$CONFIG_DIR/skills/$skill"
 done
@@ -24,6 +24,7 @@ cp "$REPO_DIR/command/caveman-review.md"  "$CONFIG_DIR/command/"
 cp "$REPO_DIR/command/caveman-audit.md"   "$CONFIG_DIR/command/"
 cp "$REPO_DIR/command/caveman-debt.md"    "$CONFIG_DIR/command/"
 cp "$REPO_DIR/command/caveman-shrink.md"  "$CONFIG_DIR/command/"
+cp "$REPO_DIR/command/caveman-memory.md"  "$CONFIG_DIR/command/"
 cp "$REPO_DIR/command/caveman-help.md"    "$CONFIG_DIR/command/"
 
 echo "caveman installed in $CONFIG_DIR"
@@ -36,6 +37,7 @@ echo "  /caveman-review                     # review the current diff (bugs + ov
 echo "  /caveman-audit                      # audit the whole repo for over-engineering"
 echo "  /caveman-debt                       # harvest deferred caveman: shortcuts into a ledger"
 echo "  /caveman-shrink <file>              # compress a memory file (saves input tokens)"
+echo "  /caveman-memory save|recall|forget  # persistent project memory in your Obsidian vault"
 echo "  /caveman-help                       # quick reference card"
 
 command -v opencode >/dev/null 2>&1 || echo "
