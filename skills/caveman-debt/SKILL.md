@@ -14,7 +14,7 @@ Every deliberate caveman shortcut is marked with a `caveman:` comment naming its
 
 Grep the repo for comment markers, skipping `node_modules`, `.git`, and build output:
 
-`grep -rnE '(#|//) ?caveman:' .` (add other comment prefixes if your stack uses them)
+`grep -rnE '(#|//|--|;) ?caveman:' .` (covers `#`, `//`, `--` SQL/Lua, `;` Lisp/asm; add other comment prefixes if your stack uses them)
 
 Each hit is one ledger row. The comment prefix keeps prose that merely mentions the convention out of the ledger.
 

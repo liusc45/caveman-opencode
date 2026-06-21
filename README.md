@@ -2,7 +2,7 @@
 
 Three-axis minimalism for [opencode](https://opencode.ai). Caveman compresses on three fronts at once:
 
-1. **Output prose** — how you talk. ~60–75% fewer output tokens. Smart caveman speak; code stays normal.
+1. **Output prose** — how you talk. ~25% (lite) to ~80% (ultra) fewer output tokens, ~62% at the default `full`. Smart caveman speak; code stays normal.
 2. **Code** — what you build. A 6-rung YAGNI ladder so the agent writes only what the task needs. Less code, fewer deps, shortest working diff.
 3. **Input memory** — `/caveman-shrink` rewrites memory files (CLAUDE.md, AGENTS.md, notes) on disk so every future session loads fewer tokens.
 

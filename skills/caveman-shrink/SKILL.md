@@ -49,6 +49,10 @@ Original:
 Compressed:
 > Run tests before push to main. Catch bugs early.
 
+## Undo
+
+The `<name>.original.<ext>` backup is the undo. To revert: `mv <name>.original.<ext> <name>.<ext>` (overwrites the compressed version with the untouched original). If the user says "undo shrink" / "restore <file>" / "revertir", do exactly that and confirm. Never delete a backup unless the user explicitly asks.
+
 ## Boundaries
 
 - ONLY compress prose files: `.md`, `.txt`, `.mdc`, extensionless memory files
