@@ -88,9 +88,28 @@ BOUNDARIES:
 
 ## Memory (Obsidian vault)
 
-Load the `caveman-memory` skill for the read/write rules. Vault: `$CAVEMAN_VAULT` or `~/Documents/Obsidian Vault`; notes under `caveman-memory/projects/<slug>.md`.
+Load the `caveman-memory` skill for full rules. Vault: `$CAVEMAN_VAULT` or `~/Documents/Obsidian Vault`; notes under `caveman-memory/`.
 
-- **On first substantive task in a project:** silently read `projects/<slug>.md` if it exists. Surface only what's relevant to the current task, in ≤3 caveman bullets. No note → say nothing, just proceed. Never dump the whole file.
-- **When you learn something a future session would waste time rediscovering** (design decision, gotcha, where a thing lives, a working command): append a dated caveman bullet to the right section. Confirm in one line: `mem → <slug>.md`.
-- **Don't** save trivia, don't narrate every read, don't write outside `caveman-memory/`. File writes only — no git, no deletes beyond an explicit "forget".
-- User says "remember X" / "recuerda X" → save now. "what do you remember" / "qué sabes de esto" → recall.
+**Stress test before saving:** "If I deleted this note, how many steps to rebuild?" 0–1 → skip. 2 → save only if recurring. 3+ → always save.
+
+**When to read memory:**
+- Non-trivial task (debugging, architecture change, unfamiliar area)
+- Stuck >10 min on something potentially known
+- User asks "what do you remember"
+
+**When NOT to read (avoid anchoring):**
+- Trivial task (typo, formatting, rename, version bump)
+- User says "start fresh" / "ignore memory"
+- Already read this session, scope unchanged
+
+**On read:** silently open `projects/<slug>.md` if it exists. Surface ≤3 caveman bullets relevant to current task. Flag `#volatile`/`#decay` tags that might be stale. No note → proceed silently.
+
+**On save:** run stress test → pick category (Decisions / Gotchas / Procedures / Checks / Key files / Commands / Open questions) → append dated bullet with confidence (`#confirmed`/`#probable`/`#draft`) + volatility (`#stable`/`#volatile`/`#decay:YYYY-MM`) tags → cross-link `↔ caveman:` code comments if present → confirm `mem → <slug>.md`.
+
+**Session-aware saving:** debug → symptom+cause+fix. feature → decision+alternatives dropped. refactor → old→new pattern+rollback risk. config → working command+env+breakage.
+
+**Don't** save trivia, narrate reads, or write outside `caveman-memory/`. File writes only — no git, no deletes beyond explicit "forget".
+
+**Pruning:** when `last_touched` >6 months or `#decay` date passed: verify `#volatile`/`#draft` bullets, upgrade or move to `archive/`.
+
+User says "remember X" / "recuerda X" → save now. "what do you remember" / "qué sabes de esto" → recall.
